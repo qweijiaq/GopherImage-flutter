@@ -1,4 +1,5 @@
 import 'package:GopherImage/app/components/app_logo.dart';
+import 'package:GopherImage/app/components/app_page_header_actions_more.dart';
 import 'package:flutter/material.dart';
 
 class AppPageHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -10,15 +11,12 @@ class AppPageHeader extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: AppLogo(),
       leading: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          Scaffold.of(context).openDrawer();
+        },
         icon: Icon(Icons.menu),
       ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Icon(Icons.more_horiz),
-        ),
-      ],
+      actions: [AppPageHeeaderActionsMore()],
       bottom: TabBar(
         tabs: [
           Tab(text: '最近'),
