@@ -1,6 +1,6 @@
 {
-    "name": "helloflutter",
-    "short_name": "helloflutter",
+    "name": "GopherImage",
+    "short_name": "GopherImage",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

@@ -1,4 +1,4 @@
-package com.example.helloflutter
+package com.example.GopherImage
 
 import io.flutter.embedding.android.FlutterActivity
 
