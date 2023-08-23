@@ -1,3 +1,4 @@
+import 'package:GopherImage/playground/playground.dart';
 import 'package:GopherImage/post/create/post_create.dart';
 import 'package:GopherImage/post/index/post_index.dart';
 import 'package:GopherImage/user/profile/user_profile.dart';
@@ -18,6 +19,9 @@ class AppPageMain extends StatelessWidget {
 
     // 用户
     UserProfile(),
+
+    // 练习
+    Playground()
   ];
 
   @override
