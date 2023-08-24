@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../playground/routing/components/about.dart';
 import '../../post/show/post_show.dart';
+import '../auth/login/auth_login.dart';
 import '../components/app_home.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
@@ -90,6 +91,11 @@ class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
               appModel.resourceId!,
               post: postShowModel.post,
             ),
+          ),
+        if (appModel.pageName == 'AuthLogin')
+          MaterialPage(
+            key: ValueKey('AuthLogin'),
+            child: AuthLogin(),
           ),
       ],
       onPopPage: (route, result) {

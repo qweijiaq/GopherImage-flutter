@@ -1,20 +1,47 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '../app_config.dart';
+import 'auth.dart';
 
 class AuthModel extends ChangeNotifier {
-  bool isLoggedIn = false;
+  String userId = '';
   String name = '';
+  String token = '';
+  bool get isLoggedIn => token.isNotEmpty;
 
-  login() {
-    isLoggedIn = true;
-    name = '李白';
-    print('请求登录');
-    notifyListeners();
+  Future<Auth> login(LoginData data) async {
+    final uri = Uri.parse('${AppConfig.apiBaseUrl}/login');
+    final response = await http.post(
+      uri,
+      headers: {"content-type": "application/json"},
+      body: jsonEncode(data.toJson()),
+    );
+    final responseBody = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      final auth = Auth.fromJson(responseBody);
+
+      userId = auth.id.toString();
+      name = auth.name;
+      token = auth.token;
+
+      notifyListeners();
+
+      return auth;
+    } else {
+      throw HttpException(responseBody['message'] ?? '网络请求出了点问题 🌋');
+    }
   }
 
   logout() {
-    isLoggedIn = false;
+    userId = '';
     name = '';
-    print('退出登录');
+    token = '';
+
     notifyListeners();
   }
 }

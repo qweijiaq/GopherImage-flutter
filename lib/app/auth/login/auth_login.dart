@@ -4,8 +4,11 @@ import 'package:flutter/material.dart';
 class AuthLogin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: AuthLoginForm(),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('用户登录'),
+      ),
+      body: AuthLoginForm(),
     );
   }
 }
