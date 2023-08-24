@@ -5,6 +5,8 @@ import 'package:GopherImage/user/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../../app/app_config.dart';
+
 class PlaygroundHttp extends StatefulWidget {
   @override
   State<PlaygroundHttp> createState() => _PlaygroundHttpState();
@@ -16,7 +18,7 @@ class _PlaygroundHttpState extends State<PlaygroundHttp> {
   String? currentUserToken;
 
   getUser() async {
-    final uri = Uri.parse('http://127.0.0.1:3000/users/248');
+    final uri = Uri.parse('${AppConfig.apiBaseUrl}/users/248');
     final response = await http.get(uri);
 
     print('状态码 ${response.statusCode}');
