@@ -6,10 +6,14 @@ class AppRouterInformationParser
   // 解析路由信息
   @override
   parseRouteInformation(routeInformation) async {
-    print('解析路由信息');
-    print(routeInformation.location);
+    final uri = Uri.parse(routeInformation.location ?? '');
+
     if (routeInformation.location == '/about') {
       return AppRouteConfiguration.about();
+    }
+
+    if (uri.pathSegments.length == 2 && uri.pathSegments[0] == 'posts') {
+      return AppRouteConfiguration.postShow(uri.pathSegments[1]);
     }
 
     return AppRouteConfiguration.home();
@@ -24,6 +28,10 @@ class AppRouterInformationParser
 
     if (configuration.isAboutPage) {
       return RouteInformation(location: '/about');
+    }
+
+    if (configuration.isPostShow) {
+      return RouteInformation(location: '/posts/${configuration.resourceId}');
     }
 
     return null;

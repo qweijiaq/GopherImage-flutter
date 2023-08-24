@@ -1,8 +1,11 @@
 import 'package:GopherImage/app/app_model.dart';
 import 'package:GopherImage/app/router/app_route_configuration.dart';
+import 'package:GopherImage/post/show/post_show_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../playground/routing/components/about.dart';
+import '../../post/show/post_show.dart';
 import '../components/app_home.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
@@ -39,6 +42,11 @@ class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
     if (configuration.isAboutPage) {
       appModel.setPageName('About');
     }
+
+    if (configuration.isPostShow) {
+      appModel.setPageName('PostShow');
+      appModel.setResourceId('${configuration.resourceId}');
+    }
   }
 
   // 当前路由配置
@@ -52,11 +60,17 @@ class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
       return AppRouteConfiguration.about();
     }
 
+    if (appModel.pageName == 'PostShow') {
+      return AppRouteConfiguration.postShow(appModel.resourceId);
+    }
+
     return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    final postShowModel = context.read<PostShowModel>();
+
     return Navigator(
       // key: _navigatorKey,
       pages: [
@@ -68,6 +82,14 @@ class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
           MaterialPage(
             key: ValueKey('About'),
             child: About(),
+          ),
+        if (appModel.pageName == 'PostShow' && appModel.resourceId != null)
+          MaterialPage(
+            key: ValueKey('PostShow'),
+            child: PostShow(
+              appModel.resourceId!,
+              post: postShowModel.post,
+            ),
           ),
       ],
       onPopPage: (route, result) {
