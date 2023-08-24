@@ -1,3 +1,4 @@
+import 'package:GopherImage/post/index/components/post_list_item.dart';
 import 'package:GopherImage/post/index/post_index_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -35,10 +36,7 @@ class _PostListState extends State<PostList> {
     final list = ListView.builder(
       itemCount: posts.length,
       itemBuilder: (context, index) {
-        return Text(
-          posts[index].title!,
-          style: Theme.of(context).textTheme.titleLarge,
-        );
+        return PostListItem(item: posts[index]);
       },
     );
 
