@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:GopherImage/app/app_model.dart';
-import 'package:GopherImage/app/auth/auth_model.dart';
 import 'package:GopherImage/app/router/app_route_information_parser.dart';
 import 'package:GopherImage/app/router/app_router_delegate.dart';
-import 'package:GopherImage/post/show/post_show_model.dart';
+import 'package:GopherImage/post/post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:GopherImage/app/themes/app_theme.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'app_provider.dart';
+import 'auth/auth.dart';
+import 'auth/auth_model.dart';
 
 class App extends StatefulWidget {
   @override
@@ -14,15 +20,51 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   final AppModel appModel = AppModel();
+  final AuthModel authModel = AuthModel();
+
+  bool initializing = true;
+
+  initialize() async {
+    final prefs = await SharedPreferences.getInstance();
+    final hasAuth = prefs.containsKey('auth');
+
+    if (hasAuth) {
+      final auth = Auth.fromJson(
+        jsonDecode(prefs.getString('auth')!),
+      );
+
+      authModel.setAuth(auth);
+    }
+
+    setState(() {
+      initializing = false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initialize();
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (initializing) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: Center(
+            child: Text('初始化...'),
+          ),
+        ),
+      );
+    }
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<AuthModel>(create: (context) => AuthModel()),
-        ChangeNotifierProvider<AppModel>(create: (context) => appModel),
-        ChangeNotifierProvider<PostShowModel>(
-            create: (context) => PostShowModel()),
+        ChangeNotifierProvider.value(value: authModel),
+        ChangeNotifierProvider.value(value: appModel),
+        ...appProviders,
+        ...postProviders,
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
