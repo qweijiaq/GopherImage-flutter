@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
+import '../../app/digg/create/digg_create_model.dart';
+import '../../app/digg/destroy/digg_destroy_model.dart';
 import '../post.dart';
 
 class PostActions extends StatelessWidget {
@@ -30,38 +35,38 @@ class PostActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final likeCreateModel = context.watch<LikeCreateModel>();
-    // final diggedestroyModel = context.watch<diggedestroyModel>();
+    final diggCreateModel = context.watch<DiggCreateModel>();
+    final diggedestroyModel = context.watch<DiggDestroyModel>();
 
-    // onTapLikeAction() async {
-    //   if (post.digged == 0) {
-    //     try {
-    //       await likeCreateModel.createUserLikePost(post.id!);
-    //       digged();
-    //     } on HttpException catch (e) {
-    //       ScaffoldMessenger.of(context).showSnackBar(
-    //         SnackBar(content: Text(e.message)),
-    //       );
-    //     }
-    //   } else {
-    //     try {
-    //       await diggedestroyModel.deleteUserLikePost(post.id!);
-    //       undigged();
-    //     } on HttpException catch (e) {
-    //       ScaffoldMessenger.of(context).showSnackBar(
-    //         SnackBar(content: Text(e.message)),
-    //       );
-    //     }
-    //   }
-    // }
+    onTapDiggAction() async {
+      if (post.digged == 0) {
+        try {
+          await diggCreateModel.createUserDiggPost(post.id!);
+          digged();
+        } on HttpException catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(e.message)),
+          );
+        }
+      } else {
+        try {
+          await diggedestroyModel.deleteUserDiggPost(post.id!);
+          undigged();
+        } on HttpException catch (e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(e.message)),
+          );
+        }
+      }
+    }
 
-    final likeAction = Row(
+    final diggAction = Row(
       children: [
         GestureDetector(
           child: Icon(post.digged == 0
               ? Icons.favorite_border_outlined
               : Icons.favorite),
-          // onTap: onTapLikeAction,
+          onTap: onTapDiggAction,
         ),
         if (post.totalDiggs != 0)
           Container(
@@ -85,7 +90,7 @@ class PostActions extends StatelessWidget {
     return Container(
       child: Row(
         children: [
-          likeAction,
+          diggAction,
           SizedBox(width: 16),
           commentAction,
         ],

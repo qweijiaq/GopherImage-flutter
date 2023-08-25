@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:GopherImage/app/app_model.dart';
+import 'package:GopherImage/app/digg/digg_provider.dart';
 import 'package:GopherImage/app/router/app_route_information_parser.dart';
 import 'package:GopherImage/app/router/app_router_delegate.dart';
 import 'package:GopherImage/post/post_provider.dart';
@@ -65,6 +66,7 @@ class _AppState extends State<App> {
         ChangeNotifierProvider.value(value: appModel),
         ...appProviders,
         ...postProviders,
+        ...diggProviders,
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
