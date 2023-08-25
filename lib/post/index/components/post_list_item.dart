@@ -6,12 +6,15 @@ import 'package:provider/provider.dart';
 import '../../../app/app_model.dart';
 import '../../post.dart';
 import '../../show/post_show_model.dart';
+import '../post_index_model.dart';
 
 class PostListItem extends StatelessWidget {
   final Post item;
+  final PostListLayout layout;
 
   PostListItem({
     required this.item,
+    this.layout = PostListLayout.stack,
   });
 
   @override
@@ -34,13 +37,14 @@ class PostListItem extends StatelessWidget {
     );
 
     final postListItemMedia = Stack(
+      fit: layout == PostListLayout.grid ? StackFit.expand : StackFit.loose,
       children: [
         PostMedia(post: item),
         postListItemMediaMask,
       ],
     );
 
-    return Container(
+    final stackListItem = Container(
       padding: EdgeInsets.only(bottom: 16),
       child: Column(
         children: [
@@ -49,5 +53,17 @@ class PostListItem extends StatelessWidget {
         ],
       ),
     );
+
+    final gridListItem = Container(
+      child: postListItemMedia,
+    );
+
+    Widget postListItem = stackListItem;
+
+    if (layout == PostListLayout.grid) {
+      postListItem = gridListItem;
+    }
+
+    return postListItem;
   }
 }

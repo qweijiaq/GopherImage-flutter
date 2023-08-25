@@ -16,7 +16,7 @@ class AppPageHeader extends StatelessWidget implements PreferredSizeWidget {
         },
         icon: Icon(Icons.menu),
       ),
-      actions: [AppPageHeeaderActionsMore()],
+      actions: [AppPageHeaderActionsMore()],
       bottom: TabBar(
         tabs: [
           Tab(text: '最近'),

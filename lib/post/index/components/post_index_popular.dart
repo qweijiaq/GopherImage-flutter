@@ -1,12 +1,14 @@
+import 'package:GopherImage/post/index/components/post_list.dart';
 import 'package:flutter/material.dart';
 
 class PostIndexPopular extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Icon(
-      Icons.local_fire_department_outlined,
-      size: 128,
-      color: Colors.black12,
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: PostList(
+        sort: 'most_comments',
+      ),
     );
   }
 }
