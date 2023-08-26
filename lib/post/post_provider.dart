@@ -2,6 +2,7 @@ import 'package:GopherImage/post/show/post_show_model.dart';
 import 'package:provider/provider.dart';
 
 import '../app/app_service.dart';
+import 'create/post_create_model.dart';
 import 'index/post_index_model.dart';
 
 final postShowProvider = ChangeNotifierProvider<PostShowModel>(
@@ -20,18 +21,18 @@ final postIndexProvider =
   },
 );
 
-// final postCreateProvider =
-//     ChangeNotifierProxyProvider<AppService, PostCreateModel>(
-//   create: (context) => PostCreateModel(appService: context.read<AppService>()),
-//   update: (context, appService, postCreateModel) {
-//     return PostCreateModel(
-//       appService: appService,
-//     );
-//   },
-// );
+final postCreateProvider =
+    ChangeNotifierProxyProvider<AppService, PostCreateModel>(
+  create: (context) => PostCreateModel(appService: context.read<AppService>()),
+  update: (context, appService, postCreateModel) {
+    return PostCreateModel(
+      appService: appService,
+    );
+  },
+);
 
 final postProviders = [
   postShowProvider,
   postIndexProvider,
-  // postCreateProvider,
+  postCreateProvider,
 ];

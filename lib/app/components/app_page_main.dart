@@ -5,9 +5,9 @@ import 'package:GopherImage/user/profile/user_profile.dart';
 import 'package:flutter/material.dart';
 
 class AppPageMain extends StatelessWidget {
-  final int currebtIndex;
+  final int currentIndex;
 
-  AppPageMain({this.currebtIndex = 0});
+  AppPageMain({this.currentIndex = 0});
 
   // 一组页面主体小部件
   final pageMain = [
@@ -26,6 +26,6 @@ class AppPageMain extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return pageMain.elementAt(currebtIndex);
+    return pageMain.elementAt(currentIndex);
   }
 }

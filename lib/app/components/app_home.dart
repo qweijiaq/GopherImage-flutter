@@ -1,13 +1,13 @@
-import 'package:GopherImage/app/components/app_floating_action_button.dart';
-import 'package:GopherImage/app/components/app_page_aside.dart';
-import 'package:GopherImage/app/components/app_page_bottom.dart';
-import 'package:GopherImage/app/components/app_page_header.dart';
-import 'package:GopherImage/app/components/app_page_main.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../post/create/post_create_model.dart';
+import 'app_page_bottom.dart';
+import 'app_page_header.dart';
+import 'app_page_main.dart';
 
 class AppHome extends StatefulWidget {
   @override
-  State<AppHome> createState() => _AppHomeState();
+  _AppHomeState createState() => _AppHomeState();
 }
 
 class _AppHomeState extends State<AppHome> {
@@ -18,7 +18,42 @@ class _AppHomeState extends State<AppHome> {
   bool showAppBar = true;
 
   // 点按底部导航栏事件处理
-  void onTapAppBottomNavigationBarItem(int index) {
+  void onTapAppBottomNavigationBarItem(int index) async {
+    final postCreateModel = context.read<PostCreateModel>();
+
+    final retainDataAlertDialog = AlertDialog(
+      title: Text('是否保留未发布的内容？'),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(false);
+          },
+          child: Text('否'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+          child: Text('是'),
+        ),
+      ],
+    );
+
+    if (currentAppBottomNavigationBarItem == 1 && postCreateModel.hasData()) {
+      final retainDataResult = await showDialog(
+        context: context,
+        builder: (context) => retainDataAlertDialog,
+      );
+
+      if (retainDataResult == null) {
+        return;
+      }
+
+      if (!retainDataResult) {
+        postCreateModel.reset();
+      }
+    }
+
     setState(() {
       currentAppBottomNavigationBarItem = index;
       showAppBar = index == 0;
@@ -33,14 +68,14 @@ class _AppHomeState extends State<AppHome> {
         // backgroundColor: Colors.amber,
         appBar: showAppBar ? AppPageHeader() : null,
         body: AppPageMain(
-          currebtIndex: currentAppBottomNavigationBarItem,
+          currentIndex: currentAppBottomNavigationBarItem,
         ),
         bottomNavigationBar: AppPageBottom(
           currentIndex: currentAppBottomNavigationBarItem,
           onTap: onTapAppBottomNavigationBarItem,
         ),
-        floatingActionButton: AppFloatingActionButton(),
-        drawer: AppPageAside(),
+        // floatingActionButton: AppFloatingActionButton(),
+        // drawer: AppPageAside(),
       ),
     );
   }
