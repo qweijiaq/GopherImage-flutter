@@ -1,12 +1,13 @@
+import 'package:GopherImage/post/index/post_index_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../post/index/post_index_model.dart';
+import '../../post/post.dart';
 
 class AppPageHeaderActionsMore extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final postIndexModel = context.watch<PostIndexModel>();
+    final postIndexStore = context.read<PostIndexStore>();
 
     return PopupMenuButton(
       icon: Icon(Icons.more_horiz),
@@ -15,14 +16,14 @@ class AppPageHeaderActionsMore extends StatelessWidget {
         print('popupMenuButton: onCanceled');
       },
       onSelected: (PostListLayout value) {
-        postIndexModel.storeLayout(value);
+        postIndexStore.setLayout(value);
         print('popupMenuButton: onSelected $value');
       },
       itemBuilder: (context) => [
         PopupMenuItem(
           child: Icon(
             Icons.view_agenda_outlined,
-            color: postIndexModel.layout == PostListLayout.stack
+            color: postIndexStore.layout == PostListLayout.stack
                 ? Theme.of(context).primaryColor
                 : null,
           ),
@@ -31,7 +32,7 @@ class AppPageHeaderActionsMore extends StatelessWidget {
         PopupMenuItem(
           child: Icon(
             Icons.grid_view,
-            color: postIndexModel.layout == PostListLayout.grid
+            color: postIndexStore.layout == PostListLayout.grid
                 ? Theme.of(context).primaryColor
                 : null,
           ),

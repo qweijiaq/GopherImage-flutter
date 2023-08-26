@@ -1,3 +1,4 @@
+import 'package:GopherImage/app/components/app_logo.dart';
 import 'package:flutter/material.dart';
 
 class AppPageBottom extends StatelessWidget {
@@ -16,8 +17,12 @@ class AppPageBottom extends StatelessWidget {
       onTap: onTap,
       items: [
         BottomNavigationBarItem(
-          icon: Icon(Icons.explore_outlined),
-          activeIcon: Icon(Icons.explore),
+          icon: AppLogo(size: 21),
+          activeIcon: AppLogo(
+            size: 21,
+            variation: 'alt',
+            color: Theme.of(context).primaryColor,
+          ),
           label: '发现',
         ),
         BottomNavigationBarItem(

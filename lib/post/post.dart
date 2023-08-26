@@ -1,6 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'post.g.dart';
 
+enum PostListLayout {
+  stack,
+  grid,
+}
+
 @JsonSerializable(explicitToJson: true)
 class Post {
   int? id;

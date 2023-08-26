@@ -1,3 +1,4 @@
+import 'package:GopherImage/app/app_store.dart';
 import 'package:provider/provider.dart';
 
 import 'app_service.dart';
@@ -8,6 +9,9 @@ final appServiceProvider = ChangeNotifierProxyProvider<AuthModel, AppService>(
   update: (context, authModel, appService) => AppService(authModel: authModel),
 );
 
+final appStoreProvider = Provider.value(value: AppStore());
+
 final appProviders = [
   appServiceProvider,
+  appStoreProvider,
 ];

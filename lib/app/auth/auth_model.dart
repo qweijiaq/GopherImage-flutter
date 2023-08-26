@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:GopherImage/app/app_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app_config.dart';
 import 'auth.dart';
@@ -23,13 +23,11 @@ class AuthModel extends ChangeNotifier {
   }
 
   storeAuth(Auth auth) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString('auth', jsonEncode(auth));
+    AppStorage.setObject('auth', auth);
   }
 
   removeAuth() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.remove('auth');
+    AppStorage.remove('auth');
   }
 
   Future<Auth> login(LoginData data) async {

@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:GopherImage/app/app_model.dart';
+import 'package:GopherImage/app/app_service.dart';
 import 'package:GopherImage/app/digg/digg_provider.dart';
 import 'package:GopherImage/app/router/app_route_information_parser.dart';
 import 'package:GopherImage/app/router/app_router_delegate.dart';
@@ -9,7 +8,6 @@ import 'package:GopherImage/user/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:GopherImage/app/themes/app_theme.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_provider.dart';
 import 'auth/auth.dart';
@@ -27,13 +25,10 @@ class _AppState extends State<App> {
   bool initializing = true;
 
   initialize() async {
-    final prefs = await SharedPreferences.getInstance();
-    final hasAuth = prefs.containsKey('auth');
+    final data = await AppStorage.getMap('auth');
 
-    if (hasAuth) {
-      final auth = Auth.fromJson(
-        jsonDecode(prefs.getString('auth')!),
-      );
+    if (data != null) {
+      final auth = Auth.fromJson(data);
 
       authModel.setAuth(auth);
     }

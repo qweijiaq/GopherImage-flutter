@@ -6,7 +6,6 @@ import '../../components/post_header.dart';
 import '../../components/post_media.dart';
 import '../../post.dart';
 import '../../show/post_show_model.dart';
-import '../post_index_model.dart';
 
 class PostListItem extends StatelessWidget {
   final Post item;
