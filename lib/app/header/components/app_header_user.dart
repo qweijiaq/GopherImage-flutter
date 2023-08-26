@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app_config.dart';
+
 class AppHeaderUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -10,7 +12,8 @@ class AppHeaderUser extends StatelessWidget {
           width: 32,
           height: 32,
           child: CircleAvatar(
-            backgroundImage: NetworkImage(''),
+            backgroundImage: NetworkImage(
+                '${AppConfig.apiBaseUrl}/users/3/avatar?size=medium'),
           ),
         ),
       ),

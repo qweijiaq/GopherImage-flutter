@@ -9,6 +9,20 @@ part of 'post_index_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$PostIndexStore on _PostIndexStore, Store {
+  Computed<int>? _$totalPagesComputed;
+
+  @override
+  int get totalPages =>
+      (_$totalPagesComputed ??= Computed<int>(() => super.totalPages,
+              name: '_PostIndexStore.totalPages'))
+          .value;
+  Computed<bool>? _$hasMoreComputed;
+
+  @override
+  bool get hasMore => (_$hasMoreComputed ??=
+          Computed<bool>(() => super.hasMore, name: '_PostIndexStore.hasMore'))
+      .value;
+
   late final _$postsAtom =
       Atom(name: '_PostIndexStore.posts', context: context);
 
@@ -72,6 +86,38 @@ mixin _$PostIndexStore on _PostIndexStore, Store {
     });
   }
 
+  late final _$nextPageAtom =
+      Atom(name: '_PostIndexStore.nextPage', context: context);
+
+  @override
+  int get nextPage {
+    _$nextPageAtom.reportRead();
+    return super.nextPage;
+  }
+
+  @override
+  set nextPage(int value) {
+    _$nextPageAtom.reportWrite(value, super.nextPage, () {
+      super.nextPage = value;
+    });
+  }
+
+  late final _$totalCountAtom =
+      Atom(name: '_PostIndexStore.totalCount', context: context);
+
+  @override
+  int? get totalCount {
+    _$totalCountAtom.reportRead();
+    return super.totalCount;
+  }
+
+  @override
+  set totalCount(int? value) {
+    _$totalCountAtom.reportWrite(value, super.totalCount, () {
+      super.totalCount = value;
+    });
+  }
+
   late final _$_PostIndexStoreActionController =
       ActionController(name: '_PostIndexStore', context: context);
 
@@ -120,12 +166,49 @@ mixin _$PostIndexStore on _PostIndexStore, Store {
   }
 
   @override
+  dynamic setNextPage([int? data]) {
+    final _$actionInfo = _$_PostIndexStoreActionController.startAction(
+        name: '_PostIndexStore.setNextPage');
+    try {
+      return super.setNextPage(data);
+    } finally {
+      _$_PostIndexStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setTotalCount(String? data) {
+    final _$actionInfo = _$_PostIndexStoreActionController.startAction(
+        name: '_PostIndexStore.setTotalCount');
+    try {
+      return super.setTotalCount(data);
+    } finally {
+      _$_PostIndexStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic reset() {
+    final _$actionInfo = _$_PostIndexStoreActionController.startAction(
+        name: '_PostIndexStore.reset');
+    try {
+      return super.reset();
+    } finally {
+      _$_PostIndexStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 posts: ${posts},
 layout: ${layout},
 loading: ${loading},
-sort: ${sort}
+sort: ${sort},
+nextPage: ${nextPage},
+totalCount: ${totalCount},
+totalPages: ${totalPages},
+hasMore: ${hasMore}
     ''';
   }
 }

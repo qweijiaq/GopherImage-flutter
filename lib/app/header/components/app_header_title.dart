@@ -8,6 +8,11 @@ class AppHeaderTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       final postIndexStore = context.read<PostIndexStore>();
+      final scrollPosition = postIndexStore.scrollController.position;
+      onTapTitle() {
+        scrollPosition.moveTo(scrollPosition.minScrollExtent);
+      }
+
       final text = Text(
         '发现',
         style: TextStyle(
@@ -32,6 +37,7 @@ class AppHeaderTitle extends StatelessWidget {
       final title = Container(
         padding: EdgeInsets.only(left: 8),
         child: GestureDetector(
+          onTap: onTapTitle,
           child: Row(
             children: [
               text,

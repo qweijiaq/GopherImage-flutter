@@ -30,6 +30,7 @@ class _PostListState extends State<PostList> {
     super.initState();
 
     Future.microtask(() {
+      context.read<PostIndexStore>().reset();
       context.read<PostIndexStore>().getPosts();
     });
 
