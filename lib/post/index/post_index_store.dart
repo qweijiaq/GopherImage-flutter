@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:mobx/mobx.dart';
 import '../../app/app_config.dart';
 import '../../app/app_service.dart';
+import 'package:GopherImage/app/exceptions/http_exception.dart';
 import '../post.dart';
 part 'post_index_store.g.dart';
 
@@ -38,8 +39,15 @@ abstract class _PostIndexStore with Store {
   // ————————————————————————————————————————————————————————
   @observable
   ObservableList<Post>? posts;
+
   @observable
   PostListLayout? layout;
+
+  @observable
+  bool loading = false;
+
+  @observable
+  String sort = 'latest';
 
   // ————————————————————————————————————————————————————————
   // 计算：Computed
@@ -58,14 +66,31 @@ abstract class _PostIndexStore with Store {
     layout = data;
   }
 
-  Future<List<Post>> getPosts({required String sort}) async {
-    final uri = Uri.parse('${AppConfig.apiBaseUrl}/posts?sort=$sort');
-    final response = await appService.apiHttpClient.get(uri);
-    final parsed = parsePosts(response.body);
+  @action
+  setLoading(bool data) {
+    loading = data;
+  }
 
-    setPosts(parsed);
+  @action
+  setSort(String data) {
+    sort = data;
+  }
 
-    return parsed;
+  Future<List<Post>> getPosts() async {
+    try {
+      setLoading(true);
+      final uri = Uri.parse('${AppConfig.apiBaseUrl}/posts?sort=$sort');
+      final response = await appService.apiHttpClient.get(uri);
+      final parsed = parsePosts(response.body);
+
+      setPosts(parsed);
+
+      return parsed;
+    } catch (e) {
+      throw HttpException();
+    } finally {
+      setLoading(false);
+    }
   }
 
   // ————————————————————————————————————————————————————————
@@ -73,13 +98,23 @@ abstract class _PostIndexStore with Store {
   // ————————————————————————————————————————————————————————
 
   storeLayoutWhenLayoutChanged() {
-    return reaction((_) => layout,
-        (data) => AppStorage.setString('postListLayout', data.toString()));
+    return reaction(
+      (_) => layout,
+      (data) => AppStorage.setString(
+        'postListLayout',
+        data.toString(),
+      ),
+    );
+  }
+
+  getPostsWhereSortChanged() {
+    return reaction((_) => sort, (_) => getPosts());
   }
 
   // 初始反应
   initReactions() {
     reactionDisposers.add(storeLayoutWhenLayoutChanged());
+    reactionDisposers.add(getPostsWhereSortChanged());
   }
 
   // 取消反应

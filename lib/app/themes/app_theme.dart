@@ -66,7 +66,7 @@ final appBarTheme = AppBarTheme(
 
 final appBarThemeDark = AppBarTheme(
   elevation: 1,
-  backgroundColor: Color(0xff2e2e2e),
+  backgroundColor: primaryBackgroundColorDark,
   iconTheme: IconThemeData(
     color: Colors.grey,
   ),

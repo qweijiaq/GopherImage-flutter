@@ -41,6 +41,37 @@ mixin _$PostIndexStore on _PostIndexStore, Store {
     });
   }
 
+  late final _$loadingAtom =
+      Atom(name: '_PostIndexStore.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  late final _$sortAtom = Atom(name: '_PostIndexStore.sort', context: context);
+
+  @override
+  String get sort {
+    _$sortAtom.reportRead();
+    return super.sort;
+  }
+
+  @override
+  set sort(String value) {
+    _$sortAtom.reportWrite(value, super.sort, () {
+      super.sort = value;
+    });
+  }
+
   late final _$_PostIndexStoreActionController =
       ActionController(name: '_PostIndexStore', context: context);
 
@@ -67,10 +98,34 @@ mixin _$PostIndexStore on _PostIndexStore, Store {
   }
 
   @override
+  dynamic setLoading(bool data) {
+    final _$actionInfo = _$_PostIndexStoreActionController.startAction(
+        name: '_PostIndexStore.setLoading');
+    try {
+      return super.setLoading(data);
+    } finally {
+      _$_PostIndexStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setSort(String data) {
+    final _$actionInfo = _$_PostIndexStoreActionController.startAction(
+        name: '_PostIndexStore.setSort');
+    try {
+      return super.setSort(data);
+    } finally {
+      _$_PostIndexStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 posts: ${posts},
-layout: ${layout}
+layout: ${layout},
+loading: ${loading},
+sort: ${sort}
     ''';
   }
 }
