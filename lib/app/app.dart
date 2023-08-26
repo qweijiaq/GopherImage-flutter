@@ -5,6 +5,7 @@ import 'package:GopherImage/app/digg/digg_provider.dart';
 import 'package:GopherImage/app/router/app_route_information_parser.dart';
 import 'package:GopherImage/app/router/app_router_delegate.dart';
 import 'package:GopherImage/post/post_provider.dart';
+import 'package:GopherImage/user/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:GopherImage/app/themes/app_theme.dart';
 import 'package:provider/provider.dart';
@@ -69,6 +70,7 @@ class _AppState extends State<App> {
         ...appProviders,
         ...postProviders,
         ...diggProviders,
+        ...userProviders,
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

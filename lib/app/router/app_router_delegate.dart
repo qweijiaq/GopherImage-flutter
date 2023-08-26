@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../playground/routing/components/about.dart';
 import '../../post/show/post_show.dart';
+import '../../user/create/user_create.dart';
 import '../auth/login/auth_login.dart';
 import '../components/app_home.dart';
 
@@ -96,6 +97,11 @@ class AppRouterDelegate extends RouterDelegate<AppRouteConfiguration>
           MaterialPage(
             key: ValueKey('AuthLogin'),
             child: AuthLogin(),
+          ),
+        if (appModel.pageName == 'UserCreate')
+          MaterialPage(
+            key: ValueKey('UserCreate'),
+            child: UserCreate(),
           ),
       ],
       onPopPage: (route, result) {
