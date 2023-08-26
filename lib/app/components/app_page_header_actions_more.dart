@@ -24,7 +24,7 @@ class AppPageHeaderActionsMore extends StatelessWidget {
             Icons.view_agenda_outlined,
             color: postIndexModel.layout == PostListLayout.stack
                 ? Theme.of(context).primaryColor
-                : Colors.black,
+                : null,
           ),
           value: PostListLayout.stack,
         ),
@@ -33,7 +33,7 @@ class AppPageHeaderActionsMore extends StatelessWidget {
             Icons.grid_view,
             color: postIndexModel.layout == PostListLayout.grid
                 ? Theme.of(context).primaryColor
-                : Colors.black,
+                : null,
           ),
           value: PostListLayout.grid,
         ),

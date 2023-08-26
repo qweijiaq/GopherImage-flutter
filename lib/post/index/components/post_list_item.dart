@@ -1,9 +1,9 @@
-import 'package:GopherImage/post/components/post_header.dart';
-import 'package:GopherImage/post/components/post_media.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../app/app_model.dart';
+import '../../components/post_header.dart';
+import '../../components/post_media.dart';
 import '../../post.dart';
 import '../../show/post_show_model.dart';
 import '../post_index_model.dart';
@@ -36,10 +36,21 @@ class PostListItem extends StatelessWidget {
       ),
     );
 
+    bool isPortrait = false;
+
+    if (item.file!.width != null && item.file!.height != null) {
+      isPortrait = item.file!.width! < item.file!.height!;
+    }
+
+    final aspectRatio = isPortrait ? 3 / 4 : 3 / 2;
+
     final postListItemMedia = Stack(
       fit: layout == PostListLayout.grid ? StackFit.expand : StackFit.loose,
       children: [
-        PostMedia(post: item),
+        AspectRatio(
+          aspectRatio: aspectRatio,
+          child: PostMedia(post: item),
+        ),
         postListItemMediaMask,
       ],
     );
@@ -49,6 +60,9 @@ class PostListItem extends StatelessWidget {
       child: Column(
         children: [
           postListItemMedia,
+          SizedBox(
+            height: 8,
+          ),
           PostHeader(post: item),
         ],
       ),

@@ -29,7 +29,6 @@ class UserProfile extends StatelessWidget {
     return Consumer<AuthModel>(
       builder: (context, value, child) {
         return Container(
-          color: Colors.white,
           height: double.infinity,
           width: double.infinity,
           child: Center(
